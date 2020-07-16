@@ -6,7 +6,7 @@ import java.util.Scanner;
 // возвращающий результат,где a, b, c, d – входные параметры этого метода;
 
 public class Calculate {
-    public static void main(String[] args) {
+    public static void runCalculate() {
         Scanner in = new Scanner(System.in);
         System.out.print("Введи a: ");
         int a = in.nextInt();

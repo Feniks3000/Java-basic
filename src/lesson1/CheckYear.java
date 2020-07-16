@@ -6,7 +6,7 @@ import java.util.Scanner;
 // Каждый 4-й год является високосным, кроме каждого 100-го, при этом каждый 400-й – високосный.
 
 public class CheckYear {
-    public static void main(String[] args) {
+    public static void runCheckYear() {
         Scanner in = new Scanner(System.in);
         System.out.print("Введи год: ");
         int year = in.nextInt();
