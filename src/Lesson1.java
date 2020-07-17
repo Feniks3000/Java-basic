@@ -3,7 +3,7 @@ import lesson1.*;
 import java.util.Scanner;
 
 public class Lesson1 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner in = new Scanner(System.in);
         System.out.print("Программы для запуска:\n" +
                 "1. Вычисление по формуле a * (b + (c / d)) \n" +
