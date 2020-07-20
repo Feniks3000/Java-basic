@@ -10,7 +10,7 @@ import java.util.Scanner;
 // метод должен вернуть true, если число отрицательное;
 
 public class CheckNumber {
-    public static void main(String[] args) {
+    public static void runCheckNumber() {
         Scanner in = new Scanner(System.in);
         System.out.print("Введи число: ");
         int val = in.nextInt();

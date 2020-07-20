@@ -6,7 +6,7 @@ import java.util.Scanner;
 // метод должен вывести в консоль сообщение «Привет, указанное_имя!»;
 
 public class Hello {
-    public static void main(String[] args) {
+    public static void runHello() {
         Scanner in = new Scanner(System.in);
         System.out.print("Здравствуйте! \nКак вас зовут? \n> ");
         hello(in.nextLine());

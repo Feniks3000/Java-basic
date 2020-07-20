@@ -6,7 +6,7 @@ import java.util.Scanner;
 // если да – вернуть true, в противном случае – false;
 
 public class CheckSum {
-    public static void main(String[] args) {
+    public static void runCheckSum() {
         Scanner in = new Scanner(System.in);
         System.out.print("Введи первое число: ");
         int first = in.nextInt();
