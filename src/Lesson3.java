@@ -81,22 +81,21 @@ public class Lesson3 {
         String[] WORDS = {"apple", "orange", "lemon", "banana", "apricot", "avocado", "broccoli", "carrot", "cherry", "garlic",
                 "grape", "melon", "leak", "kiwi", "mango", "mushroom", "nut", "olive", "pea", "peanut", "pear", "pepper", "pineapple",
                 "pumpkin", "potato"};
-        int QTY_ATTEMPT = 5;
 
         do {
             int randomNumber = getRandomIntInRange(0, WORDS.length - 1);
-            System.out.println(WORDS[randomNumber]);
+            //System.out.println(WORDS[randomNumber]);
             String word;
             int attempt = 0;
 
             do {
                 attempt++;
-                System.out.printf("Попытка %d из %d. Попробуй угадать как пишется загаданный овощь или фрукт по-английски: ", attempt, QTY_ATTEMPT);
+                System.out.printf("Попытка %d. Попробуй угадать как пишется загаданный овощь или фрукт по-английски: ", attempt);
                 word = in.nextLine();
                 if (!WORDS[randomNumber].equals(word.toLowerCase())) {
                     compareWords(WORDS[randomNumber], word);
                 }
-            } while (!WORDS[randomNumber].equals(word.toLowerCase()) && attempt < QTY_ATTEMPT);
+            } while (!WORDS[randomNumber].equals(word.toLowerCase()));
 
             if (WORDS[randomNumber].equals(word.toLowerCase())) {
                 System.out.printf("Угадал! Ты молодец! С %d попытки угадать слово %s удается немногим\n", attempt, word);
