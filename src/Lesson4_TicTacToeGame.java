@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Lesson4_TicTacToeGame {
     public static final int SIZE = 3;
@@ -93,6 +94,10 @@ public class Lesson4_TicTacToeGame {
     }
 
     public static boolean checkWin(char symb) {
+        for (int i = 0; i < getMap().length; i++) {
+            checkHumanWinInRow(i);
+        }
+
         boolean gameOver = false;
         if (map[0][0] == symb && map[0][1] == symb && map[0][2] == symb) gameOver = true;
         if (map[1][0] == symb && map[1][1] == symb && map[1][2] == symb) gameOver = true;
@@ -107,6 +112,32 @@ public class Lesson4_TicTacToeGame {
             System.out.println("Ничья");
         }
         return !gameOver;
+    }
+
+    public static boolean checkHumanWinInRow(int row) {
+        List<Step> stepsInRow = getStepInRow(row);
+        if (stepsInRow.size() >= DOTS_TO_WIN) {
+            int stepsInSeries = 1;
+            Iterator<Step> iterator = stepsInRow.iterator();
+            Step firstStep = iterator.next();
+            while (iterator.hasNext()) {
+                Step nextStep = iterator.next();
+                if (firstStep.getX() - nextStep.getX() == 1 || firstStep.getX() - nextStep.getX() == -1) {
+                    stepsInSeries++;
+                } else {
+                    stepsInSeries = 1;
+                }
+                firstStep = nextStep;
+                if (stepsInSeries == DOTS_TO_WIN) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static List<Step> getStepInRow(int row) {
+        return getHumanSteps().stream().filter(step -> step.getY() == row).sorted(Comparator.comparingInt(Step::getX)).collect(Collectors.toList());
     }
 
     public static boolean isMapFull() {
