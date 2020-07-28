@@ -94,23 +94,25 @@ public class Lesson4_TicTacToeGame {
     }
 
     public static boolean checkWin(char symb) {
-        for (int i = 0; i < getMap().length; i++) {
-            checkHumanWinInRow(i);
-        }
 
         boolean gameOver = false;
-        if (map[0][0] == symb && map[0][1] == symb && map[0][2] == symb) gameOver = true;
-        if (map[1][0] == symb && map[1][1] == symb && map[1][2] == symb) gameOver = true;
-        if (map[2][0] == symb && map[2][1] == symb && map[2][2] == symb) gameOver = true;
-        if (map[0][0] == symb && map[1][0] == symb && map[2][0] == symb) gameOver = true;
-        if (map[0][1] == symb && map[1][1] == symb && map[2][1] == symb) gameOver = true;
-        if (map[0][2] == symb && map[1][2] == symb && map[2][2] == symb) gameOver = true;
-        if (map[0][0] == symb && map[1][1] == symb && map[2][2] == symb) gameOver = true;
-        if (map[2][0] == symb && map[1][1] == symb && map[0][2] == symb) gameOver = true;
-        if (isMapFull()) {
-            gameOver = true;
-            System.out.println("Ничья");
+        for (int i = 0; i < getMap().length; i++) {
+            if (checkHumanWinInRow(i) || checkHumanWinInColimn(i)) {
+                gameOver = true;
+            }
         }
+//        if (map[0][0] == symb && map[0][1] == symb && map[0][2] == symb) gameOver = true;
+//        if (map[1][0] == symb && map[1][1] == symb && map[1][2] == symb) gameOver = true;
+//        if (map[2][0] == symb && map[2][1] == symb && map[2][2] == symb) gameOver = true;
+//        if (map[0][0] == symb && map[1][0] == symb && map[2][0] == symb) gameOver = true;
+//        if (map[0][1] == symb && map[1][1] == symb && map[2][1] == symb) gameOver = true;
+//        if (map[0][2] == symb && map[1][2] == symb && map[2][2] == symb) gameOver = true;
+//        if (map[0][0] == symb && map[1][1] == symb && map[2][2] == symb) gameOver = true;
+//        if (map[2][0] == symb && map[1][1] == symb && map[0][2] == symb) gameOver = true;
+//        if (isMapFull()) {
+//            gameOver = true;
+//            System.out.println("Ничья");
+//        }
         return !gameOver;
     }
 
@@ -136,8 +138,34 @@ public class Lesson4_TicTacToeGame {
         return false;
     }
 
+    public static boolean checkHumanWinInColimn(int column) {
+        List<Step> stepsInColumn = getStepInColumn(column);
+        if (stepsInColumn.size() >= DOTS_TO_WIN) {
+            int stepsInSeries = 1;
+            Iterator<Step> iterator = stepsInColumn.iterator();
+            Step firstStep = iterator.next();
+            while (iterator.hasNext()) {
+                Step nextStep = iterator.next();
+                if (firstStep.getY() - nextStep.getY() == 1 || firstStep.getY() - nextStep.getY() == -1) {
+                    stepsInSeries++;
+                } else {
+                    stepsInSeries = 1;
+                }
+                firstStep = nextStep;
+                if (stepsInSeries == DOTS_TO_WIN) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static List<Step> getStepInRow(int row) {
         return getHumanSteps().stream().filter(step -> step.getY() == row).sorted(Comparator.comparingInt(Step::getX)).collect(Collectors.toList());
+    }
+
+    public static List<Step> getStepInColumn(int column) {
+        return getHumanSteps().stream().filter(step -> step.getX() == column).sorted(Comparator.comparingInt(Step::getY)).collect(Collectors.toList());
     }
 
     public static boolean isMapFull() {
@@ -151,8 +179,8 @@ public class Lesson4_TicTacToeGame {
             y = rand.nextInt(SIZE);
         } while (!isCellValid(x, y, getMap()));
         System.out.println("Компьютер походил в точку " + (x + 1) + " " + (y + 1));
-        getMap()[y][x] = DOT_O;
-        fixStep(y, x);
+        getMap()[x][y] = DOT_O;
+        fixStep(x, y);
         printMap(getMap(), getStep());
         System.out.println(getAiSteps().size());
         checkWin(DOT_O);
@@ -164,8 +192,8 @@ public class Lesson4_TicTacToeGame {
             x = Lesson3.getIntInRange("Введи координату X: ", 1, map.length) - 1;
             y = Lesson3.getIntInRange("Введи координату Y: ", 1, map.length) - 1;
         } while (!isCellValid(x, y, getMap()));
-        getMap()[y][x] = DOT_X;
-        fixStep(y, x);
+        getMap()[x][y] = DOT_X;
+        fixStep(x, y);
         printMap(getMap(), getStep());
         System.out.println(getHumanSteps().size());
         checkWin(DOT_X);
