@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import helper.Helper;
 
 /*
 1. Написать программу, которая загадывает случайное число от 0 до 9 и пользователю дается 3 попытки угадать это число.
@@ -53,13 +54,13 @@ public class Lesson3 {
         int QTY_ATTEMPT = 3;
 
         do {
-            int randomNumber = getRandomIntInRange(FROM, TO);
+            int randomNumber = Helper.getRandomIntInRange(FROM, TO);
             int number;
             int attempt = 0;
 
             do {
                 attempt++;
-                number = getIntInRange("Введи целое число от %d до %d: ", FROM, TO);
+                number = Helper.getIntInRange("Введи целое число от %d до %d: ", FROM, TO);
                 if (number > randomNumber) {
                     System.out.printf("Число %d больше загаданного\n", number);
                 } else if (number < randomNumber) {
@@ -83,7 +84,7 @@ public class Lesson3 {
                 "pumpkin", "potato"};
 
         do {
-            int randomNumber = getRandomIntInRange(0, WORDS.length - 1);
+            int randomNumber = Helper.getRandomIntInRange(0, WORDS.length - 1);
             //System.out.println(WORDS[randomNumber]);
             String word;
             int attempt = 0;
@@ -120,31 +121,4 @@ public class Lesson3 {
         }
         System.out.println();
     }
-
-    public static int getRandomIntInRange(int from, int to) {
-        return (int) (from + Math.random() * (to - from));
-    }
-
-    public static int getIntInRange(String message, int from, int to) {
-        Integer result = null;
-        do {
-            System.out.printf(message, from, to);
-            String str_number = in.nextLine();
-            try {
-                result = Integer.parseInt(str_number);
-                if (!numberInRange(result, from, to)) {
-                    System.out.printf("Введено число не из диапазона от %d до %d. Попробуй еще раз \n", from, to);
-                }
-            } catch (Exception ex) {
-                System.out.println("Ты ввел что-то, но это явно не число. Попробуй еще раз");
-            }
-        } while (result == null || !numberInRange(result, from, to));
-        return result;
-    }
-
-    private static boolean numberInRange(int number, int from, int to) {
-        return number >= from && number <= to;
-    }
-
-
 }
