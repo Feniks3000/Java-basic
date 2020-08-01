@@ -16,6 +16,11 @@ public class TicTacToe {
     public static final char DOT_EMPTY = '•';
     public static final char DOT_X = 'X';
     public static final char DOT_O = 'O';
+    public static final int GAME_IN_PROCESS = 0;
+    public static final int HUMAN_WIN = 1;
+    public static final int AI_WIN = 2;
+    public static final int DEAD_HEAT = 3;
+
 
     public static Scanner sc = new Scanner(System.in);
     public static Random rand = new Random();
@@ -84,40 +89,35 @@ public class TicTacToe {
         TicTacToe.aiIqLevel = aiIqLevel;
     }
 
-    public static boolean checkWin() {
-        boolean gameOver = true;
+    public static int checkWin(List<Step> humanSteps, List<Step> aiSteps, int dotsToWin) {
         for (int i = 0; i < getMapSize(); i++) {
-            if (checkWinInSeries(getStepInRow(i, getHumanSteps()))
-                    || checkWinInSeries(getStepInColumn(i, getHumanSteps()))) {
-                System.out.println("Победил человек");
-                gameOver = false;
+            if (checkWinInSeries(getStepInRow(i, humanSteps), dotsToWin)
+                    || checkWinInSeries(getStepInColumn(i, humanSteps), dotsToWin)) {
+                return HUMAN_WIN;
             }
-            if (checkWinInSeries(getStepInRow(i, getAiSteps()))
-                    || checkWinInSeries(getStepInColumn(i, getAiSteps()))) {
-                gameOver = false;
+            if (checkWinInSeries(getStepInRow(i, aiSteps), dotsToWin)
+                    || checkWinInSeries(getStepInColumn(i, aiSteps), dotsToWin)) {
+                return AI_WIN;
             }
         }
         for (int i = 0; i < getMapSize() * 2 - 1; i++) {
-            if (checkWinInSeries(getStepInDiagonal1(i, getHumanSteps())) ||
-                    checkWinInSeries(getStepInDiagonal2(i, getHumanSteps()))) {
-                System.out.println("Победил человек");
-                gameOver = false;
+            if (checkWinInSeries(getStepInDiagonal1(i, humanSteps), dotsToWin) ||
+                    checkWinInSeries(getStepInDiagonal2(i, humanSteps), dotsToWin)) {
+                return HUMAN_WIN;
             }
-            if (checkWinInSeries(getStepInDiagonal1(i, getAiSteps())) ||
-                    checkWinInSeries(getStepInDiagonal2(i, getAiSteps()))) {
-                System.out.println("Победил искусственный интеллект");
-                gameOver = true;
+            if (checkWinInSeries(getStepInDiagonal1(i, aiSteps), dotsToWin) ||
+                    checkWinInSeries(getStepInDiagonal2(i, aiSteps), dotsToWin)) {
+                return AI_WIN;
             }
         }
         if (isMapFull()) {
-            System.out.println("Ничья");
-            gameOver = false;
+            return DEAD_HEAT;
         }
-        return gameOver;
+        return GAME_IN_PROCESS;
     }
 
-    public static boolean checkWinInSeries(List<Step> seriesList) {
-        if (seriesList.size() >= getDotsToWin()) {
+    public static boolean checkWinInSeries(List<Step> seriesList, int dotsToWin) {
+        if (seriesList.size() >= dotsToWin) {
             int stepsInSeries = 1;
             Iterator<Step> iterator = seriesList.iterator();
             Step firstStep = iterator.next();
@@ -130,7 +130,7 @@ public class TicTacToe {
                     stepsInSeries = 1;
                 }
                 firstStep = nextStep;
-                if (stepsInSeries == getDotsToWin()) {
+                if (stepsInSeries == dotsToWin) {
                     return true;
                 }
             }
@@ -181,63 +181,63 @@ public class TicTacToe {
     }
 
     public static void aiTurn() {
-        int row, column;
-        Step newStep = null;
-        if (rand.nextInt(10) <= getAiIqLevel()) {
-            List<Step> priorityStepsHuman = new ArrayList<>();
-            List<Step> priorityStepsAi = new ArrayList<>();
-            for (int i = 0; i < getMapSize(); i++) {
-                List<Step> stepsHumanInRow = getStepInRow(i, getHumanSteps());
-                List<Step> stepsAiInRow = getStepInRow(i, getAiSteps());
-                if (stepsHumanInRow.size() > 1 && stepsHumanInRow.size() + stepsAiInRow.size() < getMapSize()) {
-                    for (int j = 0; j < getMapSize(); j++) {
-                        if (isCellValid(i, j, getMap())) {
-                            if ((stepsHumanInRow.contains(new Step(i, j - 1)) && stepsHumanInRow.contains(new Step(i, j + 1)))) {
-                                priorityStepsHuman.add(new Step(i, j));
-                            }
-                            if ((stepsAiInRow.contains(new Step(i, j - 1)) && stepsAiInRow.contains(new Step(i, j + 1)))
-                                    || (stepsAiInRow.contains(new Step(i, j - 2)) && stepsAiInRow.contains(new Step(i, j - 1)))
-                                    || (stepsAiInRow.contains(new Step(i, j + 2)) && stepsAiInRow.contains(new Step(i, j + 1)))) {
-                                priorityStepsAi.add(new Step(i, j));
-                            }
-                        }
-                    }
-                }
-                List<Step> stepsHumanInColumn = getStepInColumn(i, getHumanSteps());
-                List<Step> stepsAiInColumn = getStepInColumn(i, getAiSteps());
-                if (stepsHumanInColumn.size() > 1 && stepsHumanInColumn.size() + stepsAiInColumn.size() < getMapSize()) {
-                    for (int j = 0; j < getMapSize(); j++) {
-                        if (isCellValid(j, i, getMap())) {
-                            if (stepsHumanInColumn.contains(new Step(j - 1, i)) && stepsHumanInColumn.contains(new Step(j + 1, i))) {
-                                priorityStepsHuman.add(new Step(j, i));
-                            }
-                            if ((stepsAiInColumn.contains(new Step(j - 1, i)) && stepsAiInColumn.contains(new Step(j + 1, i)))
-                                    || (stepsAiInColumn.contains(new Step( j - 2, i)) && stepsAiInColumn.contains(new Step( j - 1, i)))
-                                    || (stepsAiInColumn.contains(new Step(j + 2, i)) && stepsAiInColumn.contains(new Step( j + 1, i)))) {
-                                priorityStepsAi.add(new Step(j, i));
-                            }
-                        }
-                    }
-                }
-            }
-            if (priorityStepsAi.size() > 0) {
-                    newStep = priorityStepsAi.get(rand.nextInt(priorityStepsAi.size()));
-            }
-            if (newStep == null && priorityStepsHuman.size() > 0) {
-                    newStep = priorityStepsHuman.get(rand.nextInt(priorityStepsHuman.size()));
-            }
-            if (newStep == null) {
-                newStep = getRandomStep();
-            }
-        } else {
-            newStep = getRandomStep();
+        List<Step> tempHumanSteps = new ArrayList<>(getHumanSteps());
+        List<Step> tempAiSteps = new ArrayList<>(getAiSteps());
+
+        Step newStep = findWinAiStep(tempHumanSteps, tempAiSteps);   // Подбор победного хода компьютера
+
+        if (newStep == null) {
+            newStep = findWinHumanStep(tempHumanSteps, tempAiSteps, getDotsToWin());    // Предотвращение победной серии человека
         }
-        row = newStep.getRow();
-        column = newStep.getColumn();
-        System.out.printf("Компьютер походил в строку %d, столбец %d\n", (row + 1), (column + 1));
-        getMap()[row][column] = DOT_O;
-        fixStep(row, column);
+
+        if (newStep == null) {  // Расширенная логика компьютера по поиску победных серий, зависит от IQ компьютера
+            if (rand.nextInt(10) <= getAiIqLevel()) {
+                newStep = findWinHumanStep(tempHumanSteps, tempAiSteps, getDotsToWin() - 1); // Предотвращение начала победной серии человека
+            }
+        }
+
+        if (newStep == null) {
+                newStep = getRandomStep();
+        }
+
+        System.out.printf("Компьютер походил в строку %d, столбец %d\n", (newStep.getRow() + 1), (newStep.getColumn() + 1));
+        getMap()[newStep.getRow()][newStep.getColumn()] = DOT_O;
+        fixStep(newStep.getRow(), newStep.getColumn());
         printMap(getMap(), getStep());
+    }
+
+    private static Step findWinHumanStep(List<Step> tempHumanSteps, List<Step> tempAiSteps, int dotsToWin) {
+        for (int row = 0; row < getMapSize(); row++) {
+            for (int column = 0; column < getMapSize(); column++) {
+                Step newStep = new Step(row, column);
+                if (!tempHumanSteps.contains(newStep) && !tempAiSteps.contains(newStep)) {
+                    tempHumanSteps.add(newStep);
+                    if (checkWin(tempHumanSteps, tempAiSteps, dotsToWin) == HUMAN_WIN) {
+                        return newStep;
+                    } else {
+                        tempHumanSteps.remove(newStep);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private static Step findWinAiStep(List<Step> tempHumanSteps, List<Step> tempAiSteps) {
+        for (int row = 0; row < getMapSize(); row++) {
+            for (int column = 0; column < getMapSize(); column++) {
+                Step newStep = new Step(row, column);
+                if (!tempAiSteps.contains(newStep) && !tempHumanSteps.contains(newStep)) {
+                    tempAiSteps.add(newStep);
+                    if (checkWin(tempHumanSteps, tempAiSteps, getDotsToWin()) == AI_WIN) {
+                        return newStep;
+                    } else {
+                        tempAiSteps.remove(newStep);
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public static Step getRandomStep() {
