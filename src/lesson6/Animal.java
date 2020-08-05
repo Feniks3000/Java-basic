@@ -3,12 +3,16 @@ package lesson6;
 public abstract class Animal {
     Integer limitRun;
     Integer limitSwim;
+    Integer age;
     String name;
+    String color;
 
-    public Animal(Integer limitRun, Integer limitSwim, String name) {
+    public Animal(Integer limitRun, Integer limitSwim, String name, Integer age, String color) {
         this.limitRun = limitRun;
         this.limitSwim = limitSwim;
         this.name = name;
+        this.age = age;
+        this.color = color;
     }
 
     public void run(int distance) {
@@ -28,4 +32,15 @@ public abstract class Animal {
     }
 
     public abstract void info();
+
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "limitRun=" + limitRun +
+                ", limitSwim=" + limitSwim +
+                ", age=" + age +
+                ", name='" + name + '\'' +
+                ", color='" + color + '\'' +
+                '}';
+    }
 }
