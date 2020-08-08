@@ -1,13 +1,12 @@
-import lesson5.Employee;
+import staff.Employee;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class Lesson5 {
+public class Lesson5_Staff {
     static SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     public static void main(String[] args) throws ParseException {

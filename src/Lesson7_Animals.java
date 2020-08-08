@@ -1,10 +1,10 @@
-import lesson6.Cat;
-import lesson6.Dog;
-import lesson6.Plate;
+import animals.Cat;
+import animals.Dog;
+import animals.Plate;
 
 import java.util.Random;
 
-public class Lesson7 {
+public class Lesson7_Animals {
     public static void main(String[] args) {
         Random random = new Random();
         String[] colors = {"Белый", "Серый", "Черный", "Смешанный", "Розовый"};

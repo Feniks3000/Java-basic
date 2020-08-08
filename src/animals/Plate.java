@@ -1,4 +1,4 @@
-package lesson6;
+package animals;
 
 public class Plate {
     public final int MAX_VOLUME;

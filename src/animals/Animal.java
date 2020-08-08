@@ -1,4 +1,4 @@
-package lesson6;
+package animals;
 
 public abstract class Animal {
     public final int MAX_STOMACH_VOLUME;

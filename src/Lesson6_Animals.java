@@ -1,12 +1,12 @@
-import lesson6.Animal;
-import lesson6.Cat;
-import lesson6.Dog;
+import animals.Animal;
+import animals.Cat;
+import animals.Dog;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Lesson6 {
+public class Lesson6_Animals {
     public static void main(String[] args) {
         Random random = new Random();
         String[] colors = {"Белый", "Серый", "Черный", "Смешанный", "Розовый"};
