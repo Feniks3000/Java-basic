@@ -13,8 +13,8 @@ public class Lesson6 {
 
         List<Animal> animals = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            animals.add(new Cat("Cat number " + (i + 1), random.nextInt(14) + 1, colors[random.nextInt(colors.length)]));
-            animals.add(new Dog("Dog number " + (i + 1), random.nextInt(14) + 1, colors[random.nextInt(colors.length)]));
+            animals.add(new Cat("Cat number " + (i + 1), random.nextInt(14) + 1, colors[random.nextInt(colors.length)], 4));
+            animals.add(new Dog("Dog number " + (i + 1), random.nextInt(14) + 1, colors[random.nextInt(colors.length)], 8));
         }
         System.out.println("======================");
         for (Animal animal : animals) {

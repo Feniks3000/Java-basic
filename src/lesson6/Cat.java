@@ -1,8 +1,8 @@
 package lesson6;
 
 public class Cat extends Animal {
-    public Cat(String name, Integer age, String color) {
-        super(200, 0, name, age, color);
+    public Cat(String name, Integer age, String color, int maxStomachVolume) {
+        super(200, 0, name, age, color, maxStomachVolume);
     }
 
     @Override
