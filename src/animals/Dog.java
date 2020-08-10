@@ -1,8 +1,8 @@
-package lesson6;
+package animals;
 
 public class Dog extends Animal {
-    public Dog(String name, Integer age, String color) {
-        super(500, 10, name, age, color);
+    public Dog(String name, Integer age, String color, int maxStomachVolume) {
+        super(500, 10, name, age, color, maxStomachVolume);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package lesson5;
+package staff;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -110,7 +110,7 @@ public class Employee {
                 ", surname='" + surname + '\'' +
                 ", birthday=" + dateFormat.format(birthday) +
                 ", position='" + position + '\'' +
-                ", salary=" + String.format("%d руб. %d коп.", (long) salary / 100, (long) salary % 100) +
+                ", salary=" + String.format("%d руб. %d коп.", salary / 100, salary % 100) +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';

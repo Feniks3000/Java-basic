@@ -29,4 +29,12 @@ public class Helper {
     private static boolean numberInRange(int number, int from, int to) {
         return number >= from && number <= to;
     }
+
+    public static long factorial(int value) {
+        long result = 1;
+        for (int i = 1; i <= value; i++) {
+            result *= i;
+        }
+        return result;
+    }
 }
