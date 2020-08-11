@@ -9,8 +9,8 @@ public class GameWindow extends JFrame {
     private static final int WINDOW_HEIGHT = 550;
     private static final int WINDOW_WIDTH = 500;
 
-    private SettingsWindow settingsWindow;
-    private BattleField battleField;
+    private final SettingsWindow settingsWindow;
+    private final BattleField battleField;
 
     public GameWindow() throws HeadlessException {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -36,7 +36,11 @@ public class GameWindow extends JFrame {
         setVisible(true);
     }
 
-    public void startNewGame(int mode, int mapSize, int winningLength, int iqAiLevel){
-        battleField.startNewGame(mode, mapSize, winningLength, iqAiLevel);
+    public BattleField getBattleField() {
+        return battleField;
+    }
+
+    public void startNewGame(int mapSize, int winningLength, int iqAiLevel){
+        battleField.startNewGame(mapSize, winningLength, iqAiLevel);
     }
 }
