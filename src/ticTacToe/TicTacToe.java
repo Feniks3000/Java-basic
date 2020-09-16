@@ -5,12 +5,15 @@ import java.util.stream.Collectors;
 
 import helper.Helper;
 
+import javax.swing.*;
+
 public class TicTacToe {
     private static char[][] map;
     private static int mapSize = 3;
     private static int dotsToWin = 3;
     private static int step = 0;
     private static int aiIqLevel = 3;
+    private static boolean isFinished;
     private static List<Step> humanSteps = new ArrayList<>();
     private static List<Step> aiSteps = new ArrayList<>();
     public static final char DOT_EMPTY = '•';
@@ -20,7 +23,9 @@ public class TicTacToe {
     public static final int HUMAN_WIN = 1;
     public static final int AI_WIN = 2;
     public static final int DEAD_HEAT = 3;
+    private static int winner;
 
+    private static GameWindow gameWindow;
 
     public static Scanner sc = new Scanner(System.in);
     public static Random rand = new Random();
@@ -87,6 +92,18 @@ public class TicTacToe {
 
     public static void setAiIqLevel(int aiIqLevel) {
         TicTacToe.aiIqLevel = aiIqLevel;
+    }
+
+    public static boolean isFinished() {
+        return isFinished;
+    }
+
+    public static void setIsFinished(boolean isFinished) {
+        TicTacToe.isFinished = isFinished;
+    }
+
+    public static int getWinner() {
+        return winner;
     }
 
     public static int checkWin(List<Step> humanSteps, List<Step> aiSteps, int dotsToWin) {
@@ -260,6 +277,16 @@ public class TicTacToe {
         printMap(getMap(), getStep());
     }
 
+    public static void humanTurn(int row, int column) {
+        if (isCellValid(row, column, getMap())) {
+            addStep();
+            getMap()[row][column] = DOT_X;
+            fixStep(row, column);
+            printMap(getMap(), getStep());
+            oneRound();
+        }
+    }
+
     public static void fixStep(int row, int column) {
         if (isFirstPlayer()) {
             getHumanSteps().add(new Step(row, column));
@@ -302,5 +329,32 @@ public class TicTacToe {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public static void oneRound() {
+        setIsFinished(true);
+        winner = checkWin(getHumanSteps(), getAiSteps(), getDotsToWin());
+        if (winner != GAME_IN_PROCESS) {
+            return;
+        }
+        addStep();
+        aiTurn();
+        winner = checkWin(getHumanSteps(), getAiSteps(), getDotsToWin());
+        if (winner != GAME_IN_PROCESS) {
+            return;
+        }
+        setIsFinished(false);
+    }
+
+    public static void initGame(int mapSize, int winningLength, int iqAiLevel, GameWindow window) {
+        setStep(0);
+        setHumanSteps(new ArrayList<>());
+        setAiSteps(new ArrayList<>());
+        setMapSize(mapSize);
+        setDotsToWin(winningLength);
+        setAiIqLevel(iqAiLevel);
+        setMap(initMap(mapSize, DOT_EMPTY));
+        setIsFinished(false);
+        gameWindow = window;
     }
 }
